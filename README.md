@@ -1,4 +1,4 @@
-# LIA CRM - Sistema de Gestão de Leads
+# LeadFlow - Sistema de Gestão de Leads
 
 ![LIA CRM Banner](https://via.placeholder.com/1200x400?text=LIA+CRM+-+Gestão+de+Leads+Powered+by+AI)
 
@@ -41,8 +41,8 @@ Se você quiser clonar para estudar o código ou sugerir melhorias, basta seguir
 
 ### 1. Clonando o repositório
 ```bash
-git clone https://github.com/SeuUsuario/LIA-CRM.git
-cd LIA-CRM
+git clone https://github.com/SeuUsuario/LeadFlow.git
+cd LeadFlow
 ```
 
 ### 2. Configurando o Back-end (API Python)
