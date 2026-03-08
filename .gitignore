@@ -4,6 +4,7 @@ back/.env
 back/__pycache__/
 back/instance/
 back/leads.db
+back/gerar_massa.py
 
 # --- Regras para o Frontend (React) ---
 front/node_modules/
