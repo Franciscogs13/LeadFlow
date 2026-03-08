@@ -1,0 +1,10 @@
+# --- Regras para o Backend (Python) ---
+back/venv/
+back/.env
+back/__pycache__/
+back/instance/
+back/leads.db
+
+# --- Regras para o Frontend (React) ---
+front/node_modules/
+front/.env
