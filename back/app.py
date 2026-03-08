@@ -15,7 +15,19 @@ from config.db import db
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app)
+# CORS(app)
+# Configuração rigorosa de CORS para Produção e Desenvolvimento
+CORS(app, resources={
+    r"/*": {
+        "origins": [
+            "https://lead-flow-indol.vercel.app", # Sua URL da Vercel (Produção)
+            "http://localhost:5173",              # Seu PC (Desenvolvimento)
+            "http://127.0.0.1:5173"
+        ],
+        "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization"]
+    }
+})
 
 # =========================================================================
 #  PREPARAÇÃO PARA DEPLOY (NUVEM VS LOCAL)
