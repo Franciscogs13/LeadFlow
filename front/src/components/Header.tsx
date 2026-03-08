@@ -1,4 +1,5 @@
 import { Plus, User as UserIcon, LogOut, Shield, Target } from 'lucide-react';
+import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -11,6 +12,7 @@ interface HeaderProps {
 export function Header({ totalLeads, onAddLead, hideActions = false }: HeaderProps) {
     const { user, signOut } = useAuth();
     const navigate = useNavigate();
+    const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
     const handleLogout = (): void => {
         signOut();
@@ -54,20 +56,25 @@ export function Header({ totalLeads, onAddLead, hideActions = false }: HeaderPro
                         )}
 
                         {/* Menu do usuário */}
-                        <div className="relative group">
-                            <button className="flex items-center gap-2 px-3 py-2 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition-all duration-300">
-                                <div className="h-8 w-8 rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center shadow-sm">
-                                    <span className="text-xs font-semibold text-white">
+                        <div className="relative group" onBlur={(e) => {
+                            if (!e.currentTarget.contains(e.relatedTarget)) setIsUserMenuOpen(false);
+                        }}>
+                            <button
+                                onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                                className="flex items-center gap-3 px-3 py-2 sm:px-4 sm:py-2.5 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all duration-300"
+                            >
+                                <div className="h-9 w-9 sm:h-8 sm:w-8 rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center shadow-sm">
+                                    <span className="text-sm font-semibold text-white">
                                         {user?.nome?.charAt(0) || 'U'}
                                     </span>
                                 </div>
-                                <span className="hidden lg:inline text-sm text-slate-700">
+                                <span className="hidden lg:inline text-sm font-medium text-slate-700">
                                     {user?.nome?.split(' ')[0] || 'Usuário'}
                                 </span>
                             </button>
 
                             {/* Dropdown menu */}
-                            <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg border border-slate-200 py-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+                            <div className={`absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-slate-200 py-2 transition-all duration-300 z-50 origin-top-right ${isUserMenuOpen ? 'opacity-100 visible scale-100 translate-y-0' : 'opacity-0 invisible scale-95 -translate-y-2'}`}>
                                 {/* Link para Perfil */}
                                 <Link
                                     to="/profile"
@@ -91,7 +98,7 @@ export function Header({ totalLeads, onAddLead, hideActions = false }: HeaderPro
                                 {/* Botão Sair */}
                                 <button
                                     onClick={handleLogout}
-                                    className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors border-t border-slate-100 mt-1"
+                                    className="w-full flex items-center gap-2 px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors border-t border-slate-100 mt-1"
                                 >
                                     <LogOut className="h-4 w-4" />
                                     Sair

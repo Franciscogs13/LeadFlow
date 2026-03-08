@@ -22,3 +22,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Media & Conversion scripts
+*.mp4
+*.webp
+convert.js
+convert.cjs
+check_sig.cjs

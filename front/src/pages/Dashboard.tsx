@@ -13,10 +13,11 @@ import { useAuth } from '../contexts/AuthContext';
 export function Dashboard() {
     const [leads, setLeads] = useState<Lead[]>([]);
     const [page, setPage] = useState<number>(1);
-    const [limit] = useState<number>(10);
+    const [limit, setLimit] = useState<number>(10);
     const [totalPages, setTotalPages] = useState<number>(1);
     const [totalLeads, setTotalLeads] = useState<number>(0);
     const [filters, setFilters] = useState<ILeadFilters>({});
+    const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [isAIOpen, setIsAIOpen] = useState<boolean>(false);
@@ -44,10 +45,15 @@ export function Dashboard() {
 
     useEffect(() => {
         fetchLeads();
-    }, [page, filters]);
+    }, [page, filters, limit]);
 
     const handleFilterChange = (newFilters: ILeadFilters): void => {
         setFilters(newFilters);
+        setPage(1);
+    };
+
+    const handleLimitChange = (newLimit: number): void => {
+        setLimit(newLimit);
         setPage(1);
     };
 
@@ -151,20 +157,25 @@ export function Dashboard() {
                                 </button>
 
                                 {/* Menu do usuário */}
-                                <div className="relative group">
-                                    <button className="flex items-center gap-2 px-3 py-2 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition-all duration-300">
-                                        <div className="h-8 w-8 rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center shadow-sm">
-                                            <span className="text-xs font-semibold text-white">
+                                <div className="relative group" onBlur={(e) => {
+                                    if (!e.currentTarget.contains(e.relatedTarget)) setIsUserMenuOpen(false);
+                                }}>
+                                    <button
+                                        onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                                        className="flex items-center gap-3 px-3 py-2 sm:px-4 sm:py-2.5 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all duration-300"
+                                    >
+                                        <div className="h-9 w-9 sm:h-8 sm:w-8 rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center shadow-sm">
+                                            <span className="text-sm font-semibold text-white">
                                                 {user?.nome?.charAt(0) || 'U'}
                                             </span>
                                         </div>
-                                        <span className="hidden lg:inline text-sm text-slate-700">
+                                        <span className="hidden lg:inline text-sm font-medium text-slate-700">
                                             {user?.nome?.split(' ')[0] || 'Usuário'}
                                         </span>
                                     </button>
 
                                     {/* Dropdown menu */}
-                                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-slate-200 py-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+                                    <div className={`absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-slate-200 py-2 transition-all duration-300 z-50 origin-top-right ${isUserMenuOpen ? 'opacity-100 visible scale-100 translate-y-0' : 'opacity-0 invisible scale-95 -translate-y-2'}`}>
                                         <Link
                                             to="/profile"
                                             className="flex items-center gap-2 px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 transition-colors"
@@ -186,7 +197,7 @@ export function Dashboard() {
 
                                         <button
                                             onClick={handleLogout}
-                                            className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                                            className="w-full flex items-center gap-2 px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors border-t border-slate-100 mt-1"
                                         >
                                             <LogOut className="h-4 w-4" />
                                             Sair
@@ -257,7 +268,9 @@ export function Dashboard() {
                                 onDelete={handleDelete}
                                 page={page}
                                 totalPages={totalPages}
+                                limit={limit}
                                 onPageChange={setPage}
+                                onLimitChange={handleLimitChange}
                             />
                         </div>
                     )}

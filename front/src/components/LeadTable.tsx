@@ -10,12 +10,14 @@ interface LeadTableProps {
     onDelete: (id: number) => void;
     page: number;
     totalPages: number;
+    limit: number;
     onPageChange: (page: number) => void;
+    onLimitChange: (limit: number) => void;
 }
 
 const statusOptions: LeadStatus[] = ['Novo', 'Em Contato', 'Convertido'];
 
-export function LeadTable({ leads, onStatusChange, onDelete, page, totalPages, onPageChange }: LeadTableProps) {
+export function LeadTable({ leads, onStatusChange, onDelete, page, totalPages, limit, onPageChange, onLimitChange }: LeadTableProps) {
     const { user } = useAuth();
 
     const confirmDelete = (leadId: number, leadName: string): void => {
@@ -167,17 +169,29 @@ export function LeadTable({ leads, onStatusChange, onDelete, page, totalPages, o
 
             {/* Paginação */}
             {totalPages > 1 && (
-                <div className="flex items-center justify-between border-t border-slate-200 bg-white px-6 py-4">
-                    <div className="flex items-center gap-2">
-                        <p className="text-sm text-slate-500">
+                <div className="flex flex-col sm:flex-row items-center justify-between border-t border-slate-200 bg-white px-4 sm:px-6 py-4 gap-4">
+                    <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
+                        <p className="text-sm text-slate-500 whitespace-nowrap">
                             Página <span className="font-medium text-slate-700">{page}</span> de <span className="font-medium text-slate-700">{totalPages}</span>
                         </p>
-                        <span className="text-xs text-slate-400 bg-slate-100 px-2 py-1 rounded-full">
-                            {leads.length} leads por página
-                        </span>
+                        <div className="flex items-center gap-2">
+                            <span className="text-sm text-slate-500">Mostrar:</span>
+                            <select
+                                value={limit}
+                                onChange={(e) => onLimitChange(Number(e.target.value))}
+                                className="text-sm border flex-1 border-slate-200 rounded-md text-slate-600 py-1 pl-2 pr-6 focus:ring-blue-500 focus:border-blue-500 bg-white"
+                            >
+                                <option value={5}>5</option>
+                                <option value={10}>10</option>
+                                <option value={20}>20</option>
+                                <option value={50}>50</option>
+                                <option value={100}>100</option>
+                            </select>
+                            <span className="text-sm text-slate-500 hidden sm:inline">leads por página</span>
+                        </div>
                     </div>
 
-                    <div className="flex items-center gap-2">
+                    <div className="flex flex-wrap sm:flex-nowrap items-center justify-center gap-2 w-full sm:w-auto">
                         <button
                             onClick={() => onPageChange(page - 1)}
                             disabled={page === 1}
@@ -187,7 +201,7 @@ export function LeadTable({ leads, onStatusChange, onDelete, page, totalPages, o
                             <span className="hidden sm:inline">Anterior</span>
                         </button>
 
-                        <div className="flex items-center gap-1">
+                        <div className="flex items-center gap-1 overflow-x-auto no-scrollbar max-w-[200px] sm:max-w-none px-1">
                             {[...Array(Math.min(5, totalPages))].map((_, i) => {
                                 let pageNum = page;
                                 if (totalPages <= 5) {
