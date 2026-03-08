@@ -1,36 +1,36 @@
-import React, { useState, FormEvent } from 'react';
+import { useState, FormEvent } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import * as authApi from '../api/auth';
-import { 
-  Mail, 
-  Lock, 
-  User as UserIcon,
-  CheckCircle,
-  Target
+import {
+    Mail,
+    Lock,
+    User as UserIcon,
+    CheckCircle,
+    Target
 } from 'lucide-react';
 
 interface RegisterResponse {
-  token: string;
-  user: {
-    id: string;
-    email: string;
-    name: string;
-    role: 'admin' | 'consultor';
-  };
+    token: string;
+    user: {
+        id: number;
+        email: string;
+        nome: string;
+        role: 'Admin' | 'Consultor';
+    };
 }
 
 interface ErrorResponse {
-  response?: {
-    data?: {
-      detail?: string;
+    response?: {
+        data?: {
+            detail?: string;
+        };
     };
-  };
 }
 
 type FocusField = 'nome' | 'email' | 'password' | null;
 
-export function Register(): JSX.Element {
+export function Register() {
     const [nome, setNome] = useState<string>('');
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
@@ -45,7 +45,7 @@ export function Register(): JSX.Element {
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
         e.preventDefault();
-        
+
         if (!nome || !email || !password) {
             setError('Por favor, preencha todos os campos');
             return;
@@ -59,17 +59,17 @@ export function Register(): JSX.Element {
         try {
             setIsLoading(true);
             setError('');
-            
+
             const response: RegisterResponse = await authApi.register(nome, email, password, role);
-            
+
             await new Promise(resolve => setTimeout(resolve, 800));
-            
+
             signIn(response);
             navigate('/dashboard', { replace: true });
         } catch (err: unknown) {
             const error = err as ErrorResponse;
             setError(
-                error.response?.data?.detail || 
+                error.response?.data?.detail ||
                 'Erro ao realizar cadastro. Verifique os dados e tente novamente.'
             );
         } finally {
@@ -96,7 +96,7 @@ export function Register(): JSX.Element {
         <div className="min-h-screen bg-white flex font-sans antialiased">
             {/* Container principal */}
             <div className="w-full flex min-h-screen">
-                
+
                 {/* Lado Esquerdo - Formulário (50%) */}
                 <div className="w-full lg:w-1/2 flex items-center justify-center p-8 lg:p-12">
                     <div className="w-full max-w-md">
@@ -133,20 +133,18 @@ export function Register(): JSX.Element {
                                         Nome completo
                                     </label>
                                     <div className="relative">
-                                        <UserIcon className={`absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 transition-colors ${
-                                            isFocused === 'nome' ? 'text-blue-600' : 'text-slate-400'
-                                        }`} />
+                                        <UserIcon className={`absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 transition-colors ${isFocused === 'nome' ? 'text-blue-600' : 'text-slate-400'
+                                            }`} />
                                         <input
                                             type="text"
                                             value={nome}
                                             onChange={(e) => setNome(e.target.value)}
                                             onFocus={() => handleFocus('nome')}
                                             onBlur={handleBlur}
-                                            className={`w-full pl-9 pr-3 py-2.5 bg-slate-50 border rounded-lg text-sm text-slate-800 placeholder-slate-400 focus:outline-none transition-all ${
-                                                isFocused === 'nome' 
-                                                    ? 'border-blue-600 ring-2 ring-blue-100' 
-                                                    : 'border-slate-200'
-                                            }`}
+                                            className={`w-full pl-9 pr-3 py-2.5 bg-slate-50 border rounded-lg text-sm text-slate-800 placeholder-slate-400 focus:outline-none transition-all ${isFocused === 'nome'
+                                                ? 'border-blue-600 ring-2 ring-blue-100'
+                                                : 'border-slate-200'
+                                                }`}
                                             placeholder="João Silva"
                                             required
                                             disabled={isLoading}
@@ -160,20 +158,18 @@ export function Register(): JSX.Element {
                                         Email
                                     </label>
                                     <div className="relative">
-                                        <Mail className={`absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 transition-colors ${
-                                            isFocused === 'email' ? 'text-blue-600' : 'text-slate-400'
-                                        }`} />
+                                        <Mail className={`absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 transition-colors ${isFocused === 'email' ? 'text-blue-600' : 'text-slate-400'
+                                            }`} />
                                         <input
                                             type="email"
                                             value={email}
                                             onChange={(e) => setEmail(e.target.value)}
                                             onFocus={() => handleFocus('email')}
                                             onBlur={handleBlur}
-                                            className={`w-full pl-9 pr-3 py-2.5 bg-slate-50 border rounded-lg text-sm text-slate-800 placeholder-slate-400 focus:outline-none transition-all ${
-                                                isFocused === 'email' 
-                                                    ? 'border-blue-600 ring-2 ring-blue-100' 
-                                                    : 'border-slate-200'
-                                            }`}
+                                            className={`w-full pl-9 pr-3 py-2.5 bg-slate-50 border rounded-lg text-sm text-slate-800 placeholder-slate-400 focus:outline-none transition-all ${isFocused === 'email'
+                                                ? 'border-blue-600 ring-2 ring-blue-100'
+                                                : 'border-slate-200'
+                                                }`}
                                             placeholder="seu@email.com"
                                             required
                                             disabled={isLoading}
@@ -187,20 +183,18 @@ export function Register(): JSX.Element {
                                         Senha
                                     </label>
                                     <div className="relative">
-                                        <Lock className={`absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 transition-colors ${
-                                            isFocused === 'password' ? 'text-blue-600' : 'text-slate-400'
-                                        }`} />
+                                        <Lock className={`absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 transition-colors ${isFocused === 'password' ? 'text-blue-600' : 'text-slate-400'
+                                            }`} />
                                         <input
                                             type="password"
                                             value={password}
                                             onChange={(e) => setPassword(e.target.value)}
                                             onFocus={() => handleFocus('password')}
                                             onBlur={handleBlur}
-                                            className={`w-full pl-9 pr-3 py-2.5 bg-slate-50 border rounded-lg text-sm text-slate-800 placeholder-slate-400 focus:outline-none transition-all ${
-                                                isFocused === 'password' 
-                                                    ? 'border-blue-600 ring-2 ring-blue-100' 
-                                                    : 'border-slate-200'
-                                            }`}
+                                            className={`w-full pl-9 pr-3 py-2.5 bg-slate-50 border rounded-lg text-sm text-slate-800 placeholder-slate-400 focus:outline-none transition-all ${isFocused === 'password'
+                                                ? 'border-blue-600 ring-2 ring-blue-100'
+                                                : 'border-slate-200'
+                                                }`}
                                             placeholder="mínimo 6 caracteres"
                                             required
                                             disabled={isLoading}
@@ -230,8 +224,8 @@ export function Register(): JSX.Element {
                                 {/* Já tem conta */}
                                 <div className="text-center">
                                     <span className="text-sm text-slate-500">já tem uma conta? </span>
-                                    <Link 
-                                        to="/login" 
+                                    <Link
+                                        to="/login"
                                         className="text-sm text-blue-600 hover:text-blue-500 transition-colors font-medium"
                                     >
                                         Fazer login
@@ -252,10 +246,10 @@ export function Register(): JSX.Element {
 
                 {/* Lado Direito - Conteúdo (50%) com o MESMO BACKGROUND DO LOGIN E GRID SUTIL */}
                 <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-slate-50 via-white to-blue-50 items-center justify-center p-12 relative overflow-hidden">
-                    
+
                     {/* Grid de fundo sutil - IGUAL AO LOGIN */}
                     <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
-                    
+
                     <div className="max-w-md relative z-10">
                         {/* Logo */}
                         <div className="flex items-center gap-3 mb-8">
@@ -274,10 +268,10 @@ export function Register(): JSX.Element {
                                 seus leads hoje mesmo
                             </span>
                         </h1>
-                        
+
                         {/* Subtítulo */}
                         <p className="text-base text-slate-600 leading-relaxed mb-8">
-                            Crie sua conta gratuita e tenha acesso a todas as ferramentas 
+                            Crie sua conta gratuita e tenha acesso a todas as ferramentas
                             para organizar seu funil de vendas e acompanhar conversões.
                         </p>
 
@@ -293,7 +287,7 @@ export function Register(): JSX.Element {
                             ))}
                         </div>
 
-                        
+
                     </div>
                 </div>
             </div>

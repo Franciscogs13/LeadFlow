@@ -8,7 +8,7 @@ interface UpdateProfileResponse {
     id: number;
     email: string;
     nome: string;
-    role: 'Admin' | 'Consultor' | string;
+    role: 'Admin' | 'Consultor';
 }
 
 interface ErrorResponse {
@@ -21,7 +21,7 @@ interface ErrorResponse {
 
 type FocusField = 'nome' | 'email' | 'password' | null;
 
-export function Profile(): JSX.Element {
+export function Profile() {
     const { user, updateUser } = useAuth();
     const [nome, setNome] = useState<string>(user?.nome || '');
     const [email, setEmail] = useState<string>(user?.email || '');
@@ -47,7 +47,7 @@ export function Profile(): JSX.Element {
                 password || undefined
             );
 
-            updateUser(updatedUser);
+            updateUser(updatedUser as any);
             setMessage({ type: 'success', text: 'Perfil atualizado com sucesso!' });
             setPassword('');
         } catch (err: unknown) {

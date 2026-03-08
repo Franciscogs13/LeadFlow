@@ -12,7 +12,7 @@ interface CreateLeadModalProps {
 
 type FocusField = 'nome' | 'email' | 'telefone' | 'origem' | null;
 
-export function CreateLeadModal({ isOpen, onClose, onSubmit, onSubmitUpload, isLoading }: CreateLeadModalProps): JSX.Element | null {
+export function CreateLeadModal({ isOpen, onClose, onSubmit, onSubmitUpload, isLoading }: CreateLeadModalProps) {
     const [activeTab, setActiveTab] = useState<'manual' | 'upload'>('manual');
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [isFocused, setIsFocused] = useState<FocusField>(null);
@@ -119,8 +119,8 @@ export function CreateLeadModal({ isOpen, onClose, onSubmit, onSubmitUpload, isL
                             <button
                                 onClick={() => setActiveTab('manual')}
                                 className={`flex-1 py-3 text-sm font-medium border-b-2 transition-colors ${activeTab === 'manual'
-                                        ? 'border-blue-600 text-blue-600'
-                                        : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'
+                                    ? 'border-blue-600 text-blue-600'
+                                    : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'
                                     }`}
                             >
                                 Preenchimento Manual
@@ -128,8 +128,8 @@ export function CreateLeadModal({ isOpen, onClose, onSubmit, onSubmitUpload, isL
                             <button
                                 onClick={() => setActiveTab('upload')}
                                 className={`flex-1 py-3 text-sm font-medium border-b-2 transition-colors ${activeTab === 'upload'
-                                        ? 'border-blue-600 text-blue-600'
-                                        : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'
+                                    ? 'border-blue-600 text-blue-600'
+                                    : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'
                                     }`}
                             >
                                 Upload de Planilha
@@ -157,8 +157,8 @@ export function CreateLeadModal({ isOpen, onClose, onSubmit, onSubmitUpload, isL
                                             onFocus={() => handleFocus('nome')}
                                             onBlur={handleBlur}
                                             className={`w-full pl-9 pr-3 py-2.5 bg-slate-50 border rounded-lg text-sm text-slate-800 placeholder-slate-400 focus:outline-none transition-all ${isFocused === 'nome'
-                                                    ? 'border-blue-600 ring-2 ring-blue-100'
-                                                    : 'border-slate-200'
+                                                ? 'border-blue-600 ring-2 ring-blue-100'
+                                                : 'border-slate-200'
                                                 }`}
                                             placeholder="João Silva"
                                             required
@@ -182,8 +182,8 @@ export function CreateLeadModal({ isOpen, onClose, onSubmit, onSubmitUpload, isL
                                             onFocus={() => handleFocus('email')}
                                             onBlur={handleBlur}
                                             className={`w-full pl-9 pr-3 py-2.5 bg-slate-50 border rounded-lg text-sm text-slate-800 placeholder-slate-400 focus:outline-none transition-all ${isFocused === 'email'
-                                                    ? 'border-blue-600 ring-2 ring-blue-100'
-                                                    : 'border-slate-200'
+                                                ? 'border-blue-600 ring-2 ring-blue-100'
+                                                : 'border-slate-200'
                                                 }`}
                                             placeholder="joao@exemplo.com"
                                             required
@@ -207,8 +207,8 @@ export function CreateLeadModal({ isOpen, onClose, onSubmit, onSubmitUpload, isL
                                             onFocus={() => handleFocus('telefone')}
                                             onBlur={handleBlur}
                                             className={`w-full pl-9 pr-3 py-2.5 bg-slate-50 border rounded-lg text-sm text-slate-800 placeholder-slate-400 focus:outline-none transition-all ${isFocused === 'telefone'
-                                                    ? 'border-blue-600 ring-2 ring-blue-100'
-                                                    : 'border-slate-200'
+                                                ? 'border-blue-600 ring-2 ring-blue-100'
+                                                : 'border-slate-200'
                                                 }`}
                                             placeholder="(11) 99999-9999"
                                             required
@@ -231,8 +231,8 @@ export function CreateLeadModal({ isOpen, onClose, onSubmit, onSubmitUpload, isL
                                             onFocus={() => handleFocus('origem')}
                                             onBlur={handleBlur}
                                             className={`w-full pl-9 pr-8 py-2.5 bg-slate-50 border rounded-lg text-sm text-slate-800 focus:outline-none transition-all appearance-none cursor-pointer ${isFocused === 'origem'
-                                                    ? 'border-blue-600 ring-2 ring-blue-100'
-                                                    : 'border-slate-200'
+                                                ? 'border-blue-600 ring-2 ring-blue-100'
+                                                : 'border-slate-200'
                                                 }`}
                                             style={{
                                                 backgroundImage: 'url("data:image/svg+xml,%3csvg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 20 20\'%3e%3cpath stroke=\'%236b7280\' stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'1.5\' d=\'M6 8l4 4 4-4\'/%3e%3c/svg%3e")',
@@ -349,8 +349,8 @@ export function CreateLeadModal({ isOpen, onClose, onSubmit, onSubmitUpload, isL
                                         Arquivo
                                     </label>
                                     <div className={`border-2 border-dashed rounded-xl p-6 text-center transition-all ${selectedFile
-                                            ? 'border-green-300 bg-green-50/30'
-                                            : 'border-slate-200 hover:border-blue-400 hover:bg-blue-50/30'
+                                        ? 'border-green-300 bg-green-50/30'
+                                        : 'border-slate-200 hover:border-blue-400 hover:bg-blue-50/30'
                                         }`}>
                                         <input
                                             id="file-upload"

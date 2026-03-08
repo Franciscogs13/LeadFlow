@@ -1,4 +1,3 @@
-import React from 'react';
 import { Trash2, ChevronLeft, ChevronRight, User, Mail, Phone, MapPin, Tag } from 'lucide-react';
 import type { Lead, LeadStatus } from '../types';
 import { StatusBadge } from './ui/Badge';
@@ -16,7 +15,7 @@ interface LeadTableProps {
 
 const statusOptions: LeadStatus[] = ['Novo', 'Em Contato', 'Convertido'];
 
-export function LeadTable({ leads, onStatusChange, onDelete, page, totalPages, onPageChange }: LeadTableProps): JSX.Element {
+export function LeadTable({ leads, onStatusChange, onDelete, page, totalPages, onPageChange }: LeadTableProps) {
     const { user } = useAuth();
 
     const confirmDelete = (leadId: number, leadName: string): void => {
@@ -206,8 +205,8 @@ export function LeadTable({ leads, onStatusChange, onDelete, page, totalPages, o
                                         key={i}
                                         onClick={() => onPageChange(pageNum)}
                                         className={`w-8 h-8 rounded-lg text-sm font-medium transition-colors ${page === pageNum
-                                                ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-200/50'
-                                                : 'text-slate-600 hover:bg-slate-100'
+                                            ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-200/50'
+                                            : 'text-slate-600 hover:bg-slate-100'
                                             }`}
                                     >
                                         {pageNum}

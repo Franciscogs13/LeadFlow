@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { Header } from '../components/Header';
+import { useState, useEffect } from 'react';
 import { LeadTable } from '../components/LeadTable';
 import { CreateLeadModal } from '../components/CreateLeadModal';
 import { LeadFilters } from '../components/LeadFilters';
@@ -11,7 +10,7 @@ import { toast } from 'react-hot-toast';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
-export function Dashboard(): JSX.Element {
+export function Dashboard() {
     const [leads, setLeads] = useState<Lead[]>([]);
     const [page, setPage] = useState<number>(1);
     const [limit] = useState<number>(10);

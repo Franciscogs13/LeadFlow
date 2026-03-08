@@ -1,5 +1,4 @@
-import React from 'react';
-import { Users, Plus, User as UserIcon, LogOut, Shield, Target } from 'lucide-react';
+import { Plus, User as UserIcon, LogOut, Shield, Target } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -9,7 +8,7 @@ interface HeaderProps {
     hideActions?: boolean;
 }
 
-export function Header({ totalLeads, onAddLead, hideActions = false }: HeaderProps): JSX.Element {
+export function Header({ totalLeads, onAddLead, hideActions = false }: HeaderProps) {
     const { user, signOut } = useAuth();
     const navigate = useNavigate();
 

@@ -2,39 +2,38 @@ import React, { useState, useEffect, FormEvent } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import * as authApi from '../api/auth';
-import { 
-  Users, 
-  Mail, 
-  ArrowRight, 
-  Target,
-  BarChart3,
-  Upload,
-  Database,
-  UserPlus,
-  LogIn
+import {
+    Users,
+    Mail,
+    ArrowRight,
+    Target,
+    BarChart3,
+    Upload,
+    Database,
+    LogIn
 } from 'lucide-react';
 
 interface LoginResponse {
-  token: string;
-  user: {
-    id: string;
-    email: string;
-    name: string;
-    role: 'admin' | 'consultor';
-  };
+    token: string;
+    user: {
+        id: number;
+        email: string;
+        nome: string;
+        role: 'Admin' | 'Consultor';
+    };
 }
 
 interface ErrorResponse {
-  response?: {
-    data?: {
-      detail?: string;
+    response?: {
+        data?: {
+            detail?: string;
+        };
     };
-  };
 }
 
 type FocusField = 'email' | 'password' | null;
 
-export function Login(): JSX.Element {
+export function Login() {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [error, setError] = useState<string>('');
@@ -47,13 +46,13 @@ export function Login(): JSX.Element {
 
     useEffect(() => {
         document.body.style.overflow = 'hidden';
-        
+
         const savedEmail = localStorage.getItem('rememberedEmail');
         if (savedEmail) {
             setEmail(savedEmail);
             setRememberMe(true);
         }
-        
+
         return () => {
             document.body.style.overflow = 'unset';
         };
@@ -61,7 +60,7 @@ export function Login(): JSX.Element {
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
         e.preventDefault();
-        
+
         if (!email || !password) {
             setError('Por favor, preencha todos os campos');
             return;
@@ -70,21 +69,21 @@ export function Login(): JSX.Element {
         try {
             setIsLoading(true);
             setError('');
-            
+
             const response: LoginResponse = await authApi.login(email, password);
-            
+
             if (rememberMe) {
                 localStorage.setItem('rememberedEmail', email);
             } else {
                 localStorage.removeItem('rememberedEmail');
             }
-            
+
             await new Promise(resolve => setTimeout(resolve, 800));
-            
+
             signIn(response);
-            
+
             // Redirecionar baseado no papel do usuário
-            if (response.user.role === 'admin') {
+            if (response.user.role === 'Admin') {
                 navigate('/admin/dashboard', { replace: true });
             } else {
                 navigate('/dashboard', { replace: true });
@@ -92,7 +91,7 @@ export function Login(): JSX.Element {
         } catch (err: unknown) {
             const error = err as ErrorResponse;
             setError(
-                error.response?.data?.detail || 
+                error.response?.data?.detail ||
                 'Credenciais inválidas. Verifique seu email e senha.'
             );
         } finally {
@@ -109,43 +108,39 @@ export function Login(): JSX.Element {
     };
 
     const features = [
-        { 
-            icon: Upload, 
-            text: 'Importação em massa', 
+        {
+            icon: Upload,
+            text: 'Importação em massa',
             description: 'CSV e Excel',
             color: 'emerald'
         },
-        { 
-            icon: Target, 
-            text: 'Funil de vendas', 
+        {
+            icon: Target,
+            text: 'Funil de vendas',
             description: 'Novo · Em contato · Convertido',
             color: 'blue'
         },
-        { 
-            icon: BarChart3, 
-            text: 'Relatórios dinâmicos', 
+        {
+            icon: BarChart3,
+            text: 'Relatórios dinâmicos',
             description: 'Filtros e exportação',
             color: 'violet'
         },
-        { 
-            icon: Database, 
-            text: 'Gestão completa', 
+        {
+            icon: Database,
+            text: 'Gestão completa',
             description: 'CRUD de leads',
             color: 'amber'
         },
     ];
 
-    const stats = [
-        { value: '10k+', label: 'Leads gerenciados', icon: Users },
-        { value: '500+', label: 'Equipes ativas', icon: UserPlus },
-        { value: '99.9%', label: 'Uptime', icon: Database },
-    ];
+
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex relative overflow-hidden font-sans antialiased">
             {/* Grid de fundo sutil */}
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
-            
+
             {/* Elementos decorativos minimalistas */}
             <div className="absolute left-0 top-0 w-1/3 h-96 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-br-full blur-3xl opacity-40"></div>
             <div className="absolute right-0 bottom-0 w-1/3 h-96 bg-gradient-to-tl from-emerald-50 to-blue-50 rounded-tl-full blur-3xl opacity-40"></div>
@@ -153,7 +148,7 @@ export function Login(): JSX.Element {
             {/* Container principal */}
             <div className="relative w-full max-w-7xl mx-auto flex items-center justify-center px-4 sm:px-6 lg:px-8">
                 <div className="w-full lg:w-11/12 xl:w-10/12 grid lg:grid-cols-2 gap-8 items-center">
-                    
+
                     {/* Lado esquerdo - Apresentação do Produto */}
                     <div className="hidden lg:block space-y-8">
                         {/* Logo */}
@@ -183,9 +178,9 @@ export function Login(): JSX.Element {
                                     seu funil de vendas
                                 </span>
                             </h1>
-                            
+
                             <p className="text-base text-slate-600 leading-relaxed max-w-md">
-                                Plataforma completa para equipes comerciais gerenciarem leads, 
+                                Plataforma completa para equipes comerciais gerenciarem leads,
                                 importarem contatos em massa e acompanharem conversões em tempo real.
                             </p>
 
@@ -194,8 +189,8 @@ export function Login(): JSX.Element {
                                 {features.map((feature, index) => {
                                     const Icon = feature.icon;
                                     return (
-                                        <div 
-                                            key={index} 
+                                        <div
+                                            key={index}
                                             className="flex items-start gap-3 p-3 rounded-xl bg-white/50 backdrop-blur-sm border border-slate-200/60 hover:bg-white/80 transition-all duration-300 group cursor-default"
                                         >
                                             <div className={`h-8 w-8 rounded-lg bg-${feature.color}-50 flex items-center justify-center group-hover:scale-110 transition-transform`}>
@@ -216,11 +211,11 @@ export function Login(): JSX.Element {
 
                             {/* Estatísticas */}
                             <div className="flex items-center gap-8 pt-4">
-                                
+
                             </div>
                         </div>
 
-                        
+
                     </div>
 
                     {/* Lado direito - Formulário de Login */}
@@ -261,16 +256,15 @@ export function Login(): JSX.Element {
 
                                 {/* Campo de email */}
                                 <div className="space-y-1.5">
-                                    <label 
-                                        htmlFor="email" 
+                                    <label
+                                        htmlFor="email"
                                         className="block text-xs font-medium text-slate-600 uppercase tracking-wider"
                                     >
                                         Email
                                     </label>
                                     <div className="relative">
-                                        <Mail className={`absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 transition-colors ${
-                                            isFocused === 'email' ? 'text-blue-600' : 'text-slate-400'
-                                        }`} />
+                                        <Mail className={`absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 transition-colors ${isFocused === 'email' ? 'text-blue-600' : 'text-slate-400'
+                                            }`} />
                                         <input
                                             id="email"
                                             type="email"
@@ -289,23 +283,22 @@ export function Login(): JSX.Element {
                                 {/* Campo de senha */}
                                 <div className="space-y-1.5">
                                     <div className="flex items-center justify-between">
-                                        <label 
-                                            htmlFor="password" 
+                                        <label
+                                            htmlFor="password"
                                             className="block text-xs font-medium text-slate-600 uppercase tracking-wider"
                                         >
                                             Senha
                                         </label>
-                                        <Link 
-                                            to="/forgot-password" 
+                                        <Link
+                                            to="/forgot-password"
                                             className="text-xs text-blue-600 hover:text-blue-500 transition-colors"
                                         >
                                             Esqueceu?
                                         </Link>
                                     </div>
                                     <div className="relative">
-                                        <LogIn className={`absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 transition-colors ${
-                                            isFocused === 'password' ? 'text-blue-600' : 'text-slate-400'
-                                        }`} />
+                                        <LogIn className={`absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 transition-colors ${isFocused === 'password' ? 'text-blue-600' : 'text-slate-400'
+                                            }`} />
                                         <input
                                             id="password"
                                             type="password"
@@ -324,8 +317,8 @@ export function Login(): JSX.Element {
                                 {/* Lembrar-me */}
                                 <div className="flex items-center justify-between">
                                     <label className="flex items-center gap-2 cursor-pointer">
-                                        <input 
-                                            type="checkbox" 
+                                        <input
+                                            type="checkbox"
                                             checked={rememberMe}
                                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRememberMe(e.target.checked)}
                                             className="w-3.5 h-3.5 rounded border-slate-300 text-blue-600 focus:ring-blue-500 focus:ring-offset-0"

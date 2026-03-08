@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Search, Download, Filter, X } from 'lucide-react';
 import type { LeadFilters as ILeadFilters, LeadStatus } from '../types';
 import * as api from '../api/leads';
@@ -16,9 +16,9 @@ const statusOptions: { value: LeadStatus | ''; label: string; color: string }[] 
     { value: 'Convertido', label: 'Convertido', color: 'emerald' }
 ];
 
-export function LeadFilters({ filters, onFilterChange }: LeadFiltersProps): JSX.Element {
+export function LeadFilters({ filters, onFilterChange }: LeadFiltersProps) {
     const [isExporting, setIsExporting] = useState<boolean>(false);
-    const [isFiltersVisible, setIsFiltersVisible] = useState<boolean>(false);
+
 
     const handleExport = async (): Promise<void> => {
         try {
@@ -85,7 +85,7 @@ export function LeadFilters({ filters, onFilterChange }: LeadFiltersProps): JSX.
                         </span>
                     )}
                 </div>
-                
+
                 {/* Botão para limpar filtros (aparece apenas se houver filtros ativos) */}
                 {hasActiveFilters && (
                     <button
@@ -104,9 +104,8 @@ export function LeadFilters({ filters, onFilterChange }: LeadFiltersProps): JSX.
                     {/* Campo de busca */}
                     <div className="flex-1 relative group">
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <Search className={`h-5 w-5 transition-colors ${
-                                filters.search ? 'text-blue-600' : 'text-slate-400 group-hover:text-slate-500'
-                            }`} />
+                            <Search className={`h-5 w-5 transition-colors ${filters.search ? 'text-blue-600' : 'text-slate-400 group-hover:text-slate-500'
+                                }`} />
                         </div>
                         <input
                             type="text"
@@ -136,7 +135,7 @@ export function LeadFilters({ filters, onFilterChange }: LeadFiltersProps): JSX.
                                 </option>
                             ))}
                         </select>
-                        
+
                         {/* Indicador de status ativo */}
                         {filters.status && (
                             <div className="absolute right-8 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-blue-500"></div>
@@ -182,10 +181,9 @@ export function LeadFilters({ filters, onFilterChange }: LeadFiltersProps): JSX.
                     )}
                     {filters.status && (
                         <span className="inline-flex items-center gap-1 bg-white border border-slate-200 rounded-full px-3 py-1">
-                            <span className={`h-1.5 w-1.5 rounded-full bg-${
-                                filters.status === 'Novo' ? 'blue' : 
+                            <span className={`h-1.5 w-1.5 rounded-full bg-${filters.status === 'Novo' ? 'blue' :
                                 filters.status === 'Em Contato' ? 'amber' : 'emerald'
-                            }-500`}></span>
+                                }-500`}></span>
                             <span className="text-slate-600">{filters.status}</span>
                         </span>
                     )}

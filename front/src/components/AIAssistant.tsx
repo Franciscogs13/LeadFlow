@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Bot, User, Send, X, Loader2, Sparkles, Target, BarChart3, PieChart as PieChartIcon, LineChart } from 'lucide-react';
+import { Bot, User, Send, X, Loader2, Sparkles, BarChart3, PieChart as PieChartIcon, LineChart } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import {
@@ -16,7 +16,7 @@ interface AIAssistantProps {
 
 const COLORS = ['#2563eb', '#16a34a', '#dc2626', '#eab308', '#9333ea', '#db2777', '#0891b2', '#7c3aed'];
 
-function ChartRenderer({ config }: { config: AIChartConfig }): JSX.Element {
+function ChartRenderer({ config }: { config: AIChartConfig }) {
     const { type, data, xAxisKey, series } = config;
 
     const getChartIcon = () => {
@@ -37,24 +37,24 @@ function ChartRenderer({ config }: { config: AIChartConfig }): JSX.Element {
                             <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
                             <XAxis dataKey={xAxisKey || 'name'} tick={{ fontSize: 11, fill: '#64748b' }} />
                             <YAxis tick={{ fontSize: 11, fill: '#64748b' }} />
-                            <Tooltip 
-                                contentStyle={{ 
-                                    backgroundColor: '#fff', 
-                                    borderRadius: '8px', 
+                            <Tooltip
+                                contentStyle={{
+                                    backgroundColor: '#fff',
+                                    borderRadius: '8px',
                                     border: '1px solid #e2e8f0',
                                     boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
                                     fontSize: '12px'
-                                }} 
-                                cursor={{ fill: '#f1f5f9' }} 
+                                }}
+                                cursor={{ fill: '#f1f5f9' }}
                             />
                             <Legend wrapperStyle={{ fontSize: '11px', color: '#334155' }} />
                             {series.map((s, index) => (
-                                <Bar 
-                                    key={s.dataKey} 
-                                    dataKey={s.dataKey} 
-                                    name={s.name || s.dataKey} 
-                                    fill={s.color || COLORS[index % COLORS.length]} 
-                                    radius={[4, 4, 0, 0]} 
+                                <Bar
+                                    key={s.dataKey}
+                                    dataKey={s.dataKey}
+                                    name={s.name || s.dataKey}
+                                    fill={s.color || COLORS[index % COLORS.length]}
+                                    radius={[4, 4, 0, 0]}
                                 />
                             ))}
                         </BarChart>
@@ -65,14 +65,14 @@ function ChartRenderer({ config }: { config: AIChartConfig }): JSX.Element {
                 return (
                     <ResponsiveContainer width="100%" height="100%">
                         <PieChart>
-                            <Tooltip 
-                                contentStyle={{ 
-                                    backgroundColor: '#fff', 
-                                    borderRadius: '8px', 
+                            <Tooltip
+                                contentStyle={{
+                                    backgroundColor: '#fff',
+                                    borderRadius: '8px',
                                     border: '1px solid #e2e8f0',
                                     boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
                                     fontSize: '12px'
-                                }} 
+                                }}
                             />
                             <Legend wrapperStyle={{ fontSize: '11px', color: '#334155' }} />
                             {series.map((s, idx) => (
@@ -85,7 +85,7 @@ function ChartRenderer({ config }: { config: AIChartConfig }): JSX.Element {
                                     cy="50%"
                                     outerRadius={80}
                                     fill={COLORS[idx % COLORS.length]}
-                                    label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                                    label={({ name, percent = 0 }) => `${name}: ${(percent * 100).toFixed(0)}%`}
                                     labelLine={{ stroke: '#94a3b8', strokeWidth: 1 }}
                                 >
                                     {data.map((_entry, index) => (
@@ -104,14 +104,14 @@ function ChartRenderer({ config }: { config: AIChartConfig }): JSX.Element {
                             <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
                             <XAxis dataKey={xAxisKey || 'name'} tick={{ fontSize: 11, fill: '#64748b' }} />
                             <YAxis tick={{ fontSize: 11, fill: '#64748b' }} />
-                            <Tooltip 
-                                contentStyle={{ 
-                                    backgroundColor: '#fff', 
-                                    borderRadius: '8px', 
+                            <Tooltip
+                                contentStyle={{
+                                    backgroundColor: '#fff',
+                                    borderRadius: '8px',
                                     border: '1px solid #e2e8f0',
                                     boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
                                     fontSize: '12px'
-                                }} 
+                                }}
                             />
                             <Legend wrapperStyle={{ fontSize: '11px', color: '#334155' }} />
                             {series.map((s, index) => (
@@ -155,14 +155,14 @@ function ChartRenderer({ config }: { config: AIChartConfig }): JSX.Element {
     );
 }
 
-export function AIAssistant({ isOpen, onClose, filters }: AIAssistantProps): JSX.Element | null {
+export function AIAssistant({ isOpen, onClose, filters }: AIAssistantProps) {
     const [messages, setMessages] = useState<AIChatMessage[]>([{
         role: 'assistant',
         content: 'Olá! Sou o **LIA - Lead Intelligence Assistant** 🤖\n\nPosso ajudar a analisar seus leads com gráficos e tabelas. Experimente perguntar:\n\n' +
-                '• "Quantos leads novos entraram hoje?"\n' +
-                '• "Mostre os leads convertidos em uma tabela"\n' +
-                '• "Crie um gráfico de pizza com os status dos leads"\n' +
-                '• "Qual a origem que mais converte?"'
+            '• "Quantos leads novos entraram hoje?"\n' +
+            '• "Mostre os leads convertidos em uma tabela"\n' +
+            '• "Crie um gráfico de pizza com os status dos leads"\n' +
+            '• "Qual a origem que mais converte?"'
     }]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -204,16 +204,15 @@ export function AIAssistant({ isOpen, onClose, filters }: AIAssistantProps): JSX
     return (
         <>
             {/* Overlay para mobile */}
-            <div 
+            <div
                 className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-40 md:hidden"
                 onClick={onClose}
             ></div>
-            
+
             {/* Drawer */}
-            <div className={`fixed inset-y-0 right-0 z-50 w-full md:w-[450px] bg-white shadow-2xl flex flex-col border-l border-slate-200 transform transition-transform duration-300 ease-in-out ${
-                isOpen ? 'translate-x-0' : 'translate-x-full'
-            }`}>
-                
+            <div className={`fixed inset-y-0 right-0 z-50 w-full md:w-[450px] bg-white shadow-2xl flex flex-col border-l border-slate-200 transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : 'translate-x-full'
+                }`}>
+
                 {/* Header */}
                 <div className="bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-5">
                     <div className="flex items-center justify-between">
@@ -240,29 +239,26 @@ export function AIAssistant({ isOpen, onClose, filters }: AIAssistantProps): JSX
                     {messages.map((msg, idx) => (
                         <div key={idx} className={`flex gap-3 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}>
                             {/* Avatar */}
-                            <div className={`flex-shrink-0 h-8 w-8 rounded-xl flex items-center justify-center shadow-sm ${
-                                msg.role === 'user' 
-                                    ? 'bg-gradient-to-br from-indigo-500 to-indigo-600' 
-                                    : 'bg-gradient-to-br from-blue-600 to-indigo-600'
-                            }`}>
-                                {msg.role === 'user' 
-                                    ? <User className="h-4 w-4 text-white" /> 
+                            <div className={`flex-shrink-0 h-8 w-8 rounded-xl flex items-center justify-center shadow-sm ${msg.role === 'user'
+                                ? 'bg-gradient-to-br from-indigo-500 to-indigo-600'
+                                : 'bg-gradient-to-br from-blue-600 to-indigo-600'
+                                }`}>
+                                {msg.role === 'user'
+                                    ? <User className="h-4 w-4 text-white" />
                                     : <Bot className="h-4 w-4 text-white" />
                                 }
                             </div>
 
                             {/* Message bubble */}
-                            <div className={`max-w-[85%] rounded-2xl p-4 ${
-                                msg.role === 'user'
-                                    ? 'bg-gradient-to-br from-indigo-600 to-indigo-700 text-white rounded-tr-none shadow-md'
-                                    : 'bg-white border border-slate-200 text-slate-800 rounded-tl-none shadow-sm'
-                            }`}>
-                                {/* Markdown content */}
-                                <div className={`prose prose-sm max-w-none ${
-                                    msg.role === 'user' 
-                                        ? 'prose-invert' 
-                                        : 'prose-slate'
+                            <div className={`max-w-[85%] rounded-2xl p-4 ${msg.role === 'user'
+                                ? 'bg-gradient-to-br from-indigo-600 to-indigo-700 text-white rounded-tr-none shadow-md'
+                                : 'bg-white border border-slate-200 text-slate-800 rounded-tl-none shadow-sm'
                                 }`}>
+                                {/* Markdown content */}
+                                <div className={`prose prose-sm max-w-none ${msg.role === 'user'
+                                    ? 'prose-invert'
+                                    : 'prose-slate'
+                                    }`}>
                                     <ReactMarkdown remarkPlugins={[remarkGfm]}>
                                         {msg.content}
                                     </ReactMarkdown>
@@ -290,7 +286,7 @@ export function AIAssistant({ isOpen, onClose, filters }: AIAssistantProps): JSX
                             </div>
                         </div>
                     )}
-                    
+
                     <div ref={messagesEndRef} />
                 </div>
 
@@ -313,7 +309,7 @@ export function AIAssistant({ isOpen, onClose, filters }: AIAssistantProps): JSX
                             <Send className="h-4 w-4" />
                         </button>
                     </form>
-                    
+
                     {/* Sugestões rápidas */}
                     <div className="mt-3 flex items-center gap-2 text-xs text-slate-400">
                         <span className="h-1 w-1 rounded-full bg-slate-300"></span>

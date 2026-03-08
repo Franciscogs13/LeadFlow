@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import * as authApi from '../api/auth';
 import type { User } from '../types';
@@ -7,7 +7,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import Swal from 'sweetalert2';
 
-export function Admin(): JSX.Element {
+export function Admin() {
     const { user, signOut } = useAuth();
     const navigate = useNavigate();
     const [users, setUsers] = useState<User[]>([]);
