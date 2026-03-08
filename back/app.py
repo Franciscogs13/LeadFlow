@@ -85,12 +85,15 @@ api.add_resource(LeadsUpload, '/leads/upload')
 
 
 
-if __name__ == "__main__":
-    db.init_app(app)
+# 1. Inicializa o banco FORA do if __main__, para o Gunicorn enxergar
+db.init_app(app)
 
-    with app.app_context():
-        db.create_all()
+# 2. Cria as tabelas no Neon (se não existirem) usando o contexto da aplicação
+with app.app_context():
+    db.create_all()
 
+# 3. Isso aqui só vai rodar quando você testar localmente no seu PC
+if __name__ == '__main__':
     app.run(debug=True)
 
 
