@@ -81,6 +81,6 @@ npm run dev
 
 Este projeto fez parte de uma jornada de desenvolvimento contínuo. Fique à vontade para checar o código-fonte, testar e me contatar!
 
-**[Seu Nome Aqui]**
-- [LinkedIn](https://linkedin.com/in/seu_perfil)
-- [GitHub](https://github.com/SeuUsuario)
+**Francisco Gomes**
+- [LinkedIn](https://www.linkedin.com/in/francisco-dev/)
+- [GitHub](https://github.com/Franciscogs13)
