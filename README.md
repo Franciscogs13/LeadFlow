@@ -1,4 +1,4 @@
-# LIA CRM - Sistema de Gestão de Leads
+# LeadFlow - Sistema de Gestão de Leads
 
 ![LIA CRM Banner](https://via.placeholder.com/1200x400?text=LIA+CRM+-+Gestão+de+Leads+Powered+by+AI)
 
